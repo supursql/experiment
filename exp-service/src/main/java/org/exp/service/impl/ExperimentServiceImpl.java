@@ -33,4 +33,9 @@ public class ExperimentServiceImpl implements ExperimentService {
     public boolean updateExperiment(Experiment experiment) {
         return false;
     }
+
+    @Override
+    public List<ExperimentVO> queryExperimentByKeyWord(String keyWord) {
+        return null;
+    }
 }

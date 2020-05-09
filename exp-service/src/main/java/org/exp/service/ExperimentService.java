@@ -16,4 +16,6 @@ public interface ExperimentService {
     boolean endExperiment(int parseInt);
 
     boolean updateExperiment(Experiment experiment);
+
+    List<ExperimentVO> queryExperimentByKeyWord(String keyWord);
 }

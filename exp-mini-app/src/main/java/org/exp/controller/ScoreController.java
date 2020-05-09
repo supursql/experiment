@@ -18,7 +18,7 @@ import java.io.File;
 
 @RestController
 @RequestMapping("score")
-@Api(value = "分数的接口", tags = {"分数的接口"})
+@Api(value = "实验结果的接口", tags = {"实验结果的接口"})
 public class ScoreController extends BasicController {
 
     @Autowired
@@ -59,6 +59,14 @@ public class ScoreController extends BasicController {
         String filepath = "";
 
         return ResultUtils.ok(scoreService.addStuFile(filepath, scoreId));
+    }
+
+    @ApiOperation(value = "删除")
+    @ApiImplicitParam(name = "scoreId", value = "实验结果id", required = true,
+            dataType = "String", paramType = "query")
+    @GetMapping("/delete")
+    public ResultUtils delete(String scoreId) {
+        return ResultUtils.ok(scoreService.delete(Integer.parseInt(scoreId)));
     }
 
 }

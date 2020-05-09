@@ -49,7 +49,7 @@ public class Experiment {
     /**
      * 实验文件地址
      */
-    @ApiModelProperty(value = "实验文件地址", name = "expFileUrl", example = "")
+    @ApiModelProperty(value = "实验文件地址", name = "expFileUrl", example = "12")
     private String expFileUrl;
 
     public Integer getExpId() {

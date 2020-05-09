@@ -9,6 +9,7 @@ import org.exp.service.StudentService;
 import org.exp.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("experiment")
@@ -34,9 +35,19 @@ public class ExperimentController extends BasicController {
         return ResultUtils.ok(experimentService.queryExperimentById(Integer.parseInt(expId)));
     }
 
+    @ApiOperation(value = "按照实验id来查询所选实验信息")
+    @ApiImplicitParam(name = "keyWord", value = "关键字", required = true,
+            dataType = "String", paramType = "query")
+    @GetMapping("/findWithKeyWord")
+    public ResultUtils findWithKeyWord(String keyWord) {
+        return ResultUtils.ok(experimentService.queryExperimentByKeyWord(keyWord));
+    }
+
     @ApiOperation(value = "增加实验")
     @PostMapping("/add")
-    public ResultUtils add(@RequestBody Experiment experiment) {
+    public ResultUtils add(
+            @RequestParam("file") MultipartFile file,
+            @RequestBody Experiment experiment) {
         return ResultUtils.ok(experimentService.addExperiment(experiment));
     }
 

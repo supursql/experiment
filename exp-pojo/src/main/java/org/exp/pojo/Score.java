@@ -38,7 +38,7 @@ public class Score {
     /**
      * 实验结果
      */
-    @ApiModelProperty(value = "实验结果文件", name = "scoreResFile", example = "")
+    @ApiModelProperty(value = "实验结果文件", name = "scoreResFile", example = "12")
     private String scoreResFile;
 
 

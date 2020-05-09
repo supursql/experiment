@@ -8,10 +8,7 @@ import org.exp.service.CourseService;
 import org.exp.service.ExperimentService;
 import org.exp.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("course")
@@ -39,13 +36,13 @@ public class CourseController extends BasicController {
     }
 
     @ApiOperation(value = "增加")
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResultUtils add(@RequestBody Course course) {
         return ResultUtils.ok(courseService.add(course));
     }
 
     @ApiOperation(value = "修改")
-    @GetMapping("/update")
+    @PostMapping("/update")
     public ResultUtils update(@RequestBody Course course) {
         return ResultUtils.ok(courseService.update(course));
     }

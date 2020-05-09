@@ -11,4 +11,6 @@ public interface ScoreService {
     boolean addTeacherInfo(String scoreId, Double score, String teacherInfo);
 
     boolean addStuFile(String filepath, String scoreId);
+
+    boolean delete(int parseInt);
 }

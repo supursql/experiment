@@ -22,4 +22,9 @@ public class ScoreServiceImpl implements ScoreService {
     public boolean addStuFile(String filepath, String scoreId) {
         return false;
     }
+
+    @Override
+    public boolean delete(int parseInt) {
+        return false;
+    }
 }
