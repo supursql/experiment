@@ -14,7 +14,7 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-@MapperScan(basePackages="banxia.org.mapper")
+@MapperScan(basePackages="org.exp.mapper")
 public class Application {
 	
 	public static void main(String[] args) {

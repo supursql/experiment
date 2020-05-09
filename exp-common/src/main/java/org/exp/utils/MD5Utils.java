@@ -19,6 +19,6 @@ public class MD5Utils {
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        System.out.println(getMD5Str("sjnk_guodegangm"));
+        System.out.println(getMD5Str("123456"));
     }
 }

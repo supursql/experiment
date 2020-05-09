@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Table(name = "exp_experiment")
 public class ExperimentVO {
 
     /**

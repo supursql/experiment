@@ -48,5 +48,51 @@ public class Score {
     @ApiModelProperty(value = "实验评语", name = "scoreResponse", example = "啦啦啦啦")
     private Integer scoreResponse;
 
+    public Integer getScoreId() {
+        return scoreId;
+    }
 
+    public void setScoreId(Integer scoreId) {
+        this.scoreId = scoreId;
+    }
+
+    public Integer getScoreStu() {
+        return scoreStu;
+    }
+
+    public void setScoreStu(Integer scoreStu) {
+        this.scoreStu = scoreStu;
+    }
+
+    public Integer getScoreExp() {
+        return scoreExp;
+    }
+
+    public void setScoreExp(Integer scoreExp) {
+        this.scoreExp = scoreExp;
+    }
+
+    public Double getScoreRes() {
+        return scoreRes;
+    }
+
+    public void setScoreRes(Double scoreRes) {
+        this.scoreRes = scoreRes;
+    }
+
+    public String getScoreResFile() {
+        return scoreResFile;
+    }
+
+    public void setScoreResFile(String scoreResFile) {
+        this.scoreResFile = scoreResFile;
+    }
+
+    public Integer getScoreResponse() {
+        return scoreResponse;
+    }
+
+    public void setScoreResponse(Integer scoreResponse) {
+        this.scoreResponse = scoreResponse;
+    }
 }

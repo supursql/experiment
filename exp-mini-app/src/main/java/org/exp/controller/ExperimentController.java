@@ -2,14 +2,21 @@ package org.exp.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.exp.pojo.Experiment;
 import org.exp.service.ExperimentService;
 import org.exp.service.StudentService;
 import org.exp.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("experiment")
@@ -20,11 +27,26 @@ public class ExperimentController extends BasicController {
     private ExperimentService experimentService;
 
     @ApiOperation(value = "按照学生id来查询所选实验")
-    @ApiImplicitParam(name = "stuId", value = "学生Id", required = true,
-            dataType = "String", paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "stuId", value = "学生Id", required = true,
+                    dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "页数", required = true,
+                    dataType = "int", paramType = "query")
+    })
     @GetMapping("/findWithUserId")
-    public ResultUtils findWithUserId(String stuId) {
-        return ResultUtils.ok(experimentService.queryExperimentByUserId(Integer.parseInt(stuId)));
+    public ResultUtils findWithUserId(String stuId, Integer page, Integer pageSize) {
+
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+
+        return ResultUtils.ok(experimentService.queryExperimentByUserId(Integer.parseInt(stuId), page, pageSize));
     }
 
     @ApiOperation(value = "按照实验id来查询所选实验信息")
@@ -36,19 +58,59 @@ public class ExperimentController extends BasicController {
     }
 
     @ApiOperation(value = "按照实验id来查询所选实验信息")
-    @ApiImplicitParam(name = "keyWord", value = "关键字", required = true,
-            dataType = "String", paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyWord", value = "关键字", required = true,
+                    dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "页数", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "stuId", value = "学生Id", required = true,
+                    dataType = "String", paramType = "query"),
+    })
     @GetMapping("/findWithKeyWord")
-    public ResultUtils findWithKeyWord(String keyWord) {
-        return ResultUtils.ok(experimentService.queryExperimentByKeyWord(keyWord));
+    public ResultUtils findWithKeyWord(String keyWord, int page, int pageSize, String stuId) {
+        return ResultUtils.ok(experimentService.queryExperimentByKeyWord(keyWord, page, pageSize, Integer.parseInt(stuId)));
     }
 
     @ApiOperation(value = "增加实验")
     @PostMapping("/add")
     public ResultUtils add(
             @RequestParam("file") MultipartFile file,
-            @RequestBody Experiment experiment) {
-        return ResultUtils.ok(experimentService.addExperiment(experiment));
+            @RequestBody Experiment experiment) throws FileNotFoundException {
+
+        if (file.isEmpty()) {
+            return ResultUtils.ok(false);
+        }
+
+        String oldName = file.getOriginalFilename();
+
+        int index = oldName.lastIndexOf(".");
+
+        String newName = new StringBuilder(String.valueOf(UUID.randomUUID())).append(oldName.hashCode()).append(".").append(oldName.substring(index + 1)).toString();
+        System.out.println(newName);
+
+
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+
+        File upload = new File(path.getAbsolutePath(),"static/");
+        if(!upload.exists()) {
+            upload.mkdirs();
+        }
+
+        String filePath = upload.getAbsolutePath() + "/";
+        File dest = new File(filePath + newName);
+        try {
+            file.transferTo(dest);
+//            service.save(newName, author, fileName, type, belongLabId);
+            experiment.setExpFileUrl(filePath + newName);
+            experimentService.addExperiment(experiment);
+            return ResultUtils.ok(true);
+        } catch (IOException e) {
+        }
+
+        return ResultUtils.errorMsg("保存失败");
+
     }
 
     @ApiOperation(value = "结束实验")

@@ -1,21 +1,22 @@
 package org.exp.service;
 
 import org.exp.pojo.Experiment;
+import org.exp.utils.PagedResult;
 import org.exp.vo.ExperimentVO;
 
 import java.util.List;
 
 public interface ExperimentService {
 
-    List<ExperimentVO> queryExperimentByUserId(int parseInt);
+    PagedResult queryExperimentByUserId(int stuId, int page, int pageSize);
 
-    ExperimentVO queryExperimentById(int parseInt);
+    ExperimentVO queryExperimentById(int expId);
 
     boolean addExperiment(Experiment experiment);
 
-    boolean endExperiment(int parseInt);
+    boolean endExperiment(int expId);
 
     boolean updateExperiment(Experiment experiment);
 
-    List<ExperimentVO> queryExperimentByKeyWord(String keyWord);
+    PagedResult queryExperimentByKeyWord(String keyWord, int page, int pageSize, int stuId);
 }

@@ -1,13 +1,14 @@
 package org.exp.service;
 
 import org.exp.pojo.Course;
+import org.exp.utils.PagedResult;
 
 import java.util.List;
 
 public interface CourseService {
-    List<Course> queryCourseByUserId(int parseInt);
+    PagedResult queryCourseByUserId(int stuId, int page, int pageSize);
 
-    boolean delete(int parseInt);
+    boolean delete(int courseId);
 
     boolean add(Course course);
 

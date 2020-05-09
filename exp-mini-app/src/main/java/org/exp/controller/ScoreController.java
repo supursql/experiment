@@ -8,6 +8,7 @@ import org.exp.service.CourseService;
 import org.exp.service.ScoreService;
 import org.exp.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("score")
@@ -54,11 +58,37 @@ public class ScoreController extends BasicController {
                     dataType = "String", paramType = "query")
     })
     @PostMapping("/addStuFile")
-    public ResultUtils addStuFile(MultipartFile file, String scoreId) {
+    public ResultUtils addStuFile(MultipartFile file, String scoreId) throws FileNotFoundException {
 
-        String filepath = "";
+        if (file.isEmpty()) {
+            return ResultUtils.ok(false);
+        }
 
-        return ResultUtils.ok(scoreService.addStuFile(filepath, scoreId));
+        String oldName = file.getOriginalFilename();
+
+        int index = oldName.lastIndexOf(".");
+
+        String newName = new StringBuilder(String.valueOf(UUID.randomUUID())).append(oldName.hashCode()).append(".").append(oldName.substring(index + 1)).toString();
+        System.out.println(newName);
+
+
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+
+        File upload = new File(path.getAbsolutePath(),"static/");
+        if(!upload.exists()) {
+            upload.mkdirs();
+        }
+
+        String filePath = upload.getAbsolutePath() + "/";
+        File dest = new File(filePath + newName);
+        try {
+            file.transferTo(dest);
+            scoreService.addStuFile(filePath, scoreId);
+            return ResultUtils.ok(true);
+        } catch (IOException e) {
+        }
+
+        return ResultUtils.errorMsg("保存失败");
     }
 
     @ApiOperation(value = "删除")

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exp.mapper.StudentCustomMapper" >
+    <resultMap id="BaseResultMap" type="org.exp.vo.StudentVO" >
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="stu_id" property="stuId" jdbcType="INTEGER" />
+        <result column="stu_num" property="stuNum" jdbcType="VARCHAR" />
+        <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+        <result column="stu_pass" property="stuPass" jdbcType="VARCHAR" />
+        <result column="stu_class" property="stuClass" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="queryStudentsByCourseId" resultMap="BaseResultMap">
+        select stu.stu_id, stu.stu_num, stu.stu_name, stu.stu_class
+        from exp_student stu
+        left join exp_course_stu cs on stu.stu_id = cs.stu_id
+        WHERE cs.course_id = #{courseId}
+        GROUP BY stu.stu_id;
+    </select>
+
+    <select id="queryUserInfoById" resultMap="BaseResultMap">
+        select stu.stu_id, stu.stu_num, stu.stu_name, stu.stu_class
+        from exp_student stu
+        WHERE stu.stu_id = #{stuId}
+    </select>
+</mapper>

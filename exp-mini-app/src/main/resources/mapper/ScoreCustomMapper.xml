@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exp.mapper.ScoreCustomMapper" >
+    <resultMap id="BaseResultMap" type="org.exp.vo.ScoreVO" >
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="score_id" property="scoreId" jdbcType="INTEGER" />
+        <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+        <result column="exp_name" property="expName" jdbcType="VARCHAR" />
+        <result column="score_res" property="scoreRes" jdbcType="DECIMAL" />
+        <result column="score_res_file" property="scoreResFile" jdbcType="VARCHAR" />
+        <result column="score_response" property="scoreResponse" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectScoreByUserId" resultMap="BaseResultMap">
+        SELECT * FROM exp_score
+        WHERE score_stu = #{stuId};
+    </select>
+
+</mapper>

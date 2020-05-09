@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exp.mapper.ExperimentCustomMapper" >
+    <resultMap id="BaseResultMap" type="org.exp.vo.ExperimentVO" >
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="exp_id" property="expId" jdbcType="INTEGER" />
+        <result column="exp_name" property="expName" jdbcType="VARCHAR" />
+        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+        <result column="exp_location" property="expLocation" jdbcType="VARCHAR" />
+        <result column="exp_time" property="expTime" jdbcType="VARCHAR" />
+        <result column="exp_teacher" property="expTeacher" jdbcType="VARCHAR" />
+        <result column="exp_file_url" property="expFileUrl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectExperimentByUserId" resultMap="BaseResultMap">
+        SELECT * FROM exp_experiment
+        WHERE exp_course_id
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectExperimentByKeyWord" resultMap="BaseResultMap">
+        SELECT * FROM exp_experiment as exp
+        left join exp_course as course on course.course_id = exp.exp_course_id
+        WHERE exp_course_id
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="keyWord != null || keyWord != ''">
+            and exp.exp_num like '%#{keyWord}%' or course.course_name like '%#{keyWord}%'
+        </if>
+    </select>
+</mapper>

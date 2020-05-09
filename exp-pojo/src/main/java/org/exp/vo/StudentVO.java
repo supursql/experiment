@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Table;
+
+@Table(name = "exp_student")
 public class StudentVO {
 
     /**

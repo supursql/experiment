@@ -6,11 +6,13 @@ import org.exp.vo.ScoreVO;
 import java.util.List;
 
 public interface ScoreService {
-    List<ScoreVO> queryScoreByUserId(int parseInt);
+    List<ScoreVO> queryScoreByUserId(int stuId);
 
     boolean addTeacherInfo(String scoreId, Double score, String teacherInfo);
 
     boolean addStuFile(String filepath, String scoreId);
 
-    boolean delete(int parseInt);
+    boolean delete(int scoreId);
+
+    boolean addScore(Score score);
 }

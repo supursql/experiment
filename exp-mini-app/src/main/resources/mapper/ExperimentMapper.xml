@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exp.mapper.ExperimentMapper" >
+    <resultMap id="BaseResultMap" type="org.exp.pojo.Experiment" >
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="exp_id" property="expId" jdbcType="INTEGER" />
+        <result column="exp_name" property="expName" jdbcType="VARCHAR" />
+        <result column="exp_course_id" property="expCourseId" jdbcType="INTEGER" />
+        <result column="exp_location" property="expLocation" jdbcType="VARCHAR" />
+        <result column="exp_time" property="expTime" jdbcType="VARCHAR" />
+        <result column="exp_teacher" property="expTeacher" jdbcType="VARCHAR" />
+        <result column="exp_file_url" property="expFileUrl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <update id="endExperiment">
+        UPDATE exp_experiment
+        set exp_status = 1
+        WHERE exp_id = #{expId};
+    </update>
+</mapper>

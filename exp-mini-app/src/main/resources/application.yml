@@ -23,7 +23,7 @@ spring:
       max-request-size: 1000MB
 
 mybatis:
-  type-aliases-package: banxia.org.pojo
+  type-aliases-package: org.exp.pojo
   mapper-locations: classpath:mapper/*.xml
 mapper:
   mappers: org.exp.utils.MyMapper

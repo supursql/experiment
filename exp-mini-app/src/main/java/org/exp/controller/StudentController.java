@@ -22,13 +22,13 @@ public class StudentController extends BasicController {
             dataType = "String", paramType = "query")
     @GetMapping("/detail")
     public ResultUtils detail(String stuId) {
-        return ResultUtils.ok(studentService.queryDepartmentById(Integer.parseInt(stuId)));
+        return ResultUtils.ok(studentService.queryUserInfoById(Integer.parseInt(stuId)));
     }
 
     @ApiOperation(value = "修改学生信息")
     @PostMapping("/update")
     public ResultUtils update(@RequestBody Student student) {
-        return ResultUtils.ok(studentService.updateDepartment(student));
+        return ResultUtils.ok(studentService.updateUserInfo(student));
     }
 
 }

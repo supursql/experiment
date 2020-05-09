@@ -2,6 +2,7 @@ package org.exp.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.exp.pojo.Course;
 import org.exp.service.CourseService;
@@ -19,11 +20,26 @@ public class CourseController extends BasicController {
     private CourseService courseService;
 
     @ApiOperation(value = "按照学生id来查询所选课程")
-    @ApiImplicitParam(name = "stuId", value = "学生Id(-1:查询所有的学生)", required = true,
-            dataType = "String", paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "stuId", value = "学生Id(-1:查询所有的学生)", required = true,
+                    dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "页码", required = true,
+                    dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "页数", required = true,
+                    dataType = "int", paramType = "query")
+    })
     @GetMapping("/findWithUserId")
-    public ResultUtils findWithUserId(String stuId) {
-        return ResultUtils.ok(courseService.queryCourseByUserId(Integer.parseInt(stuId)));
+    public ResultUtils findWithUserId(String stuId, Integer page, Integer pageSize) {
+
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+
+        return ResultUtils.ok(courseService.queryCourseByUserId(Integer.parseInt(stuId), page, pageSize));
     }
 
 
