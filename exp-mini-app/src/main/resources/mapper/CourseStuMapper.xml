@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exp.mapper.CourseStuMapper" >
+    <resultMap id="BaseResultMap" type="org.exp.pojo.CourseStu" >
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="course_stu_id" property="courseStuId" jdbcType="INTEGER" />
+        <result column="course_id" property="courseId" jdbcType="INTEGER" />
+        <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="addCourse">
+        insert into exp_course_stu(course_id, stu_id)
+        values (#{courseId}, #{stuId})
+    </insert>
+
+
+</mapper>

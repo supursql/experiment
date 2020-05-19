@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.exp.mapper.CourseMapper" >
+    <select id="selectCourseByUserId" resultMap="BaseResultMap">
+        select course.course_id, course.course_name
+        from exp_course course
+        left join exp_course_stu cs on course.course_id = cs.course_id
+        WHERE
+        1 = 1
+        <if test="stuId > 0">
+            and cs.stu_id = #{stuId}
+        </if>
+        and course.course_status = 0
+        GROUP BY course.course_id
+    </select>
+
     <resultMap id="BaseResultMap" type="org.exp.pojo.Course" >
         <!--
           WARNING - @mbg.generated
@@ -9,24 +22,10 @@
         <result column="course_name" property="courseName" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="selectCourseByUserId" resultMap="BaseResultMap">
-        select course.course_id, course.course_name
-        from exp_course course
-        left join exp_course_stu cs on course.course_id = cs.course_id
-        WHERE cs.stu_id = #{stuId}
-        and course.course_status = 0
-        GROUP BY course.course_id
-    </select>
-
     <update id="deleteCourse" parameterType="int">
         UPDATE exp_course
-        set course_status = 0
+        set course_status = 1
         where course_id = #{courseId};
     </update>
 
-    <update id="updateCourse">
-        update exp_course
-        set course_name = '#{courseName}'
-        where course_id = #{courseId}
-    </update>
 </mapper>

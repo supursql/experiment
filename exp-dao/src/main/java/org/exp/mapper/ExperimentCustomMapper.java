@@ -10,5 +10,7 @@ import java.util.List;
 public interface ExperimentCustomMapper extends MyMapper<ExperimentVO> {
     List<Course> selectExperimentByUserId(@Param("list") List<Integer> list);
 
-    List<Course> selectExperimentByKeyWord(List<Integer> courseIds, String keyWord);
+    List<Course> selectExperimentByKeyWord(List<Integer> list, String keyWord);
+
+    ExperimentVO queryExperimentById(int expId);
 }

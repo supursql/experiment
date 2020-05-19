@@ -15,22 +15,32 @@
     </resultMap>
 
     <select id="selectExperimentByUserId" resultMap="BaseResultMap">
-        SELECT * FROM exp_experiment
-        WHERE exp_course_id
+        SELECT * FROM exp_experiment as exp
+        left join exp_course as course on course.course_id = exp.exp_course_id
+        WHERE exp.exp_course_id in
         <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+        and exp.exp_status = 0
     </select>
 
     <select id="selectExperimentByKeyWord" resultMap="BaseResultMap">
         SELECT * FROM exp_experiment as exp
         left join exp_course as course on course.course_id = exp.exp_course_id
-        WHERE exp_course_id
+        WHERE exp_course_id in
         <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-        <if test="keyWord != null || keyWord != ''">
-            and exp.exp_num like '%#{keyWord}%' or course.course_name like '%#{keyWord}%'
+        <if test="keyWord != null and keyWord != ''">
+            and exp.exp_name like concat('%', #{keyWord}, '%') or course.course_name like concat('%', #{keyWord}, '%')
         </if>
+        and exp.exp_status = 0
+    </select>
+
+    <select id="queryExperimentById" resultMap="BaseResultMap">
+        SELECT exp.*, course.course_name FROM exp_experiment as exp
+        left join exp_course as course on course.course_id = exp.exp_course_id
+        WHERE exp.exp_id = #{expId}
+        and exp.exp_status = 0
     </select>
 </mapper>

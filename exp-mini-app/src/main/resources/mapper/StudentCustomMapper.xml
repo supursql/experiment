@@ -25,4 +25,10 @@
         from exp_student stu
         WHERE stu.stu_id = #{stuId}
     </select>
+
+    <select id="queryStudentIsExist" resultMap="BaseResultMap">
+        select stu.stu_id, stu.stu_num, stu.stu_name, stu.stu_class, stu.stu_pass
+        from exp_student stu
+        WHERE stu.stu_num = #{stuNum}
+    </select>
 </mapper>

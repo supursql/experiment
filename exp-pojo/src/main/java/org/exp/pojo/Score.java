@@ -3,6 +3,8 @@ package org.exp.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,12 +12,11 @@ import javax.persistence.Table;
 @Table(name = "exp_score")
 public class Score {
 
-    /**
-     * 自增id
-     */
-    @ApiModelProperty(value = "实验id", name = "scoreId", example = "1")
+    @ApiModelProperty(value = "结果id", name = "scoreId", example = "1")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scoreId;
+
     /**
      * 学生id
      */
@@ -47,14 +48,6 @@ public class Score {
      */
     @ApiModelProperty(value = "实验评语", name = "scoreResponse", example = "啦啦啦啦")
     private Integer scoreResponse;
-
-    public Integer getScoreId() {
-        return scoreId;
-    }
-
-    public void setScoreId(Integer scoreId) {
-        this.scoreId = scoreId;
-    }
 
     public Integer getScoreStu() {
         return scoreStu;
@@ -94,5 +87,16 @@ public class Score {
 
     public void setScoreResponse(Integer scoreResponse) {
         this.scoreResponse = scoreResponse;
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "scoreStu=" + scoreStu +
+                ", scoreExp=" + scoreExp +
+                ", scoreRes=" + scoreRes +
+                ", scoreResFile='" + scoreResFile + '\'' +
+                ", scoreResponse=" + scoreResponse +
+                '}';
     }
 }

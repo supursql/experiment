@@ -16,6 +16,7 @@ import org.exp.vo.ExperimentVO;
 import org.exp.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -65,25 +66,24 @@ public class ExperimentServiceImpl implements ExperimentService {
     @Override
     public ExperimentVO queryExperimentById(int expId) {
 
-        Example userInfo = new Example(StudentVO.class);
-        Example.Criteria criteria = userInfo.createCriteria();
-        criteria.andEqualTo("expId", expId);
-
-        return experimentCustomMapper.selectOneByExample(userInfo);
+        return experimentCustomMapper.queryExperimentById(expId);
 
     }
 
     @Override
+    @Transactional
     public boolean addExperiment(Experiment experiment) {
-        experimentMapper.insert(experiment);
+        int key = experimentMapper.insertExperiment(experiment);
 
         List<StudentVO> studentVOS = studentService.queryStudentsByCourseId(experiment.getExpCourseId());
+
 
         for (StudentVO stu:
              studentVOS) {
             Score score = new Score();
             score.setScoreExp(experiment.getExpId());
             score.setScoreStu(stu.getStuId());
+            score.setScoreRes(0.0);
 
             scoreService.addScore(score);
         }
@@ -101,7 +101,8 @@ public class ExperimentServiceImpl implements ExperimentService {
     public boolean updateExperiment(Experiment experiment) {
         Example recordInfo = new Example(Experiment.class);
         Example.Criteria criteria = recordInfo.createCriteria();
-        criteria.andEqualTo("recordId", experiment.getExpId());
+        criteria.andEqualTo("expId", experiment.getExpId());
+
 
         return experimentMapper.updateByExampleSelective(experiment, recordInfo) != 0;
     }
@@ -115,6 +116,8 @@ public class ExperimentServiceImpl implements ExperimentService {
                     return course.getCourseId();
                 }
         ).collect(Collectors.toList());
+
+        System.out.println(keyWord);
 
         List<Course> list = experimentCustomMapper.selectExperimentByKeyWord(courseIds, keyWord);
 

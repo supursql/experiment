@@ -54,8 +54,10 @@ public class RegisterLoginController extends BasicController {
         student.setStuPass("");
 
         StudentVO studentVO = new StudentVO();
-
-        BeanUtils.copyProperties(studentVO, student);
+        studentVO.setStuId(student.getStuId());
+        studentVO.setStuClass(student.getStuClass());
+        studentVO.setStuName(student.getStuName());
+        studentVO.setStuNum(student.getStuNum());
 
         return ResultUtils.ok(setUserRedisSessionToken(studentVO));
     }

@@ -4,10 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.exp.mapper.CourseMapper;
 import org.exp.pojo.Course;
+import org.exp.pojo.Experiment;
 import org.exp.service.CourseService;
 import org.exp.utils.PagedResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -51,8 +53,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public boolean update(Course course) {
-        courseMapper.updateCourse(course);
+        Example recordInfo = new Example(Course.class);
+        Example.Criteria criteria = recordInfo.createCriteria();
+        criteria.andEqualTo("courseId", course.getCourseId());
 
-        return true;
+        return courseMapper.updateByExampleSelective(course, recordInfo) != 0;
     }
 }

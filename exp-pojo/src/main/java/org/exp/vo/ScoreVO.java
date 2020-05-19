@@ -38,7 +38,7 @@ public class ScoreVO {
     /**
      * 实验评语
      */
-    private Integer scoreResponse;
+    private String scoreResponse;
 
     public Integer getScoreId() {
         return scoreId;
@@ -80,11 +80,11 @@ public class ScoreVO {
         this.scoreResFile = scoreResFile;
     }
 
-    public Integer getScoreResponse() {
+    public String getScoreResponse() {
         return scoreResponse;
     }
 
-    public void setScoreResponse(Integer scoreResponse) {
+    public void setScoreResponse(String scoreResponse) {
         this.scoreResponse = scoreResponse;
     }
 }

@@ -19,4 +19,9 @@
         set exp_status = 1
         WHERE exp_id = #{expId};
     </update>
+
+    <insert id="insertExperiment" useGeneratedKeys="true" keyProperty="expId" parameterType="org.exp.pojo.Experiment">
+        INSERT INTO  exp_experiment(exp_name, exp_course_id, exp_location, exp_time, exp_teacher, exp_file_url)
+        VALUES (#{experiment.expName}, #{experiment.expCourseId}, #{experiment.expLocation}, #{experiment.expTime}, #{experiment.expTeacher}, #{experiment.expFileUrl})
+    </insert>
 </mapper>

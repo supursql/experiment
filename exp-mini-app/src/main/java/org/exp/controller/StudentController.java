@@ -2,6 +2,7 @@ package org.exp.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.exp.pojo.Student;
 import org.exp.service.StudentService;
@@ -30,5 +31,18 @@ public class StudentController extends BasicController {
     public ResultUtils update(@RequestBody Student student) {
         return ResultUtils.ok(studentService.updateUserInfo(student));
     }
+
+    @ApiOperation(value = "选课")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "stuId", value = "学生Id", required = true,
+                    dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "courseId", value = "课程Id", required = true,
+                    dataType = "String", paramType = "query")
+    })
+    @PostMapping("/addCourse")
+    public ResultUtils addCourse(String stuId, String courseId) {
+        return ResultUtils.ok(studentService.addCourse(stuId, courseId));
+    }
+
 
 }

@@ -27,6 +27,7 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public boolean addTeacherInfo(String scoreId, Double score, String teacherInfo) {
         scoreMapper.addTeacherInfo(scoreId, score, teacherInfo);
+        scoreMapper.endScore(scoreId);
         return true;
     }
 

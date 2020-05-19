@@ -16,20 +16,26 @@
     <update id="addTeacherInfo">
         UPDATE exp_score
         set score_res= #{score},
-        score_response = '#{teacherInfo}'
-        WHERE score_id = #{scoreId};
+        score_response = #{teacherInfo}
+        WHERE score_id = #{scoreId}
     </update>
 
     <update id="addStuFilePath">
         UPDATE exp_score
-        set score_res_file= '#{filepath}',
-        WHERE score_id = #{scoreId};
+        set score_res_file = #{filepath}
+        WHERE score_id = #{scoreId}
+    </update>
+
+    <update id="endScore">
+        UPDATE exp_score
+        set score_status= 1
+        WHERE score_id = #{scoreId}
     </update>
 
     <update id="deleteByScoreId">
         UPDATE exp_score
-        set score_status= 2,
-        WHERE score_id = #{scoreId};
+        set score_status= 2
+        WHERE score_id = #{scoreId}
     </update>
 
 </mapper>

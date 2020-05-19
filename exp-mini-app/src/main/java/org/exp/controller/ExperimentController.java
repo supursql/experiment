@@ -57,9 +57,9 @@ public class ExperimentController extends BasicController {
         return ResultUtils.ok(experimentService.queryExperimentById(Integer.parseInt(expId)));
     }
 
-    @ApiOperation(value = "按照实验id来查询所选实验信息")
+    @ApiOperation(value = "按照关键字来查询实验")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "keyWord", value = "关键字", required = true,
+            @ApiImplicitParam(name = "keyWord", value = "关键字",
                     dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "页码", required = true,
                     dataType = "int", paramType = "query"),
@@ -77,7 +77,14 @@ public class ExperimentController extends BasicController {
     @PostMapping("/add")
     public ResultUtils add(
             @RequestParam("file") MultipartFile file,
-            @RequestBody Experiment experiment) throws FileNotFoundException {
+            @RequestParam("expCourseId") String expCourseId,
+            @RequestParam("expLocation") String expLocation,
+            @RequestParam("expName") String expName,
+            @RequestParam("expTeacher") String expTeacher,
+            @RequestParam("expTime") String expTime
+            ) throws FileNotFoundException {
+
+        System.out.println(file.isEmpty());
 
         if (file.isEmpty()) {
             return ResultUtils.ok(false);
@@ -88,7 +95,6 @@ public class ExperimentController extends BasicController {
         int index = oldName.lastIndexOf(".");
 
         String newName = new StringBuilder(String.valueOf(UUID.randomUUID())).append(oldName.hashCode()).append(".").append(oldName.substring(index + 1)).toString();
-        System.out.println(newName);
 
 
         File path = new File(ResourceUtils.getURL("classpath:").getPath());
@@ -98,12 +104,19 @@ public class ExperimentController extends BasicController {
             upload.mkdirs();
         }
 
-        String filePath = upload.getAbsolutePath() + "/";
+        String filePath = "/var/www/html/";
         File dest = new File(filePath + newName);
         try {
             file.transferTo(dest);
 //            service.save(newName, author, fileName, type, belongLabId);
-            experiment.setExpFileUrl(filePath + newName);
+            Experiment experiment = new Experiment();
+            experiment.setExpFileUrl(newName);
+            experiment.setExpCourseId(Integer.parseInt(expCourseId));
+            experiment.setExpLocation(expLocation);
+            experiment.setExpName(expName);
+            experiment.setExpTeacher(expTeacher);
+            experiment.setExpTime(expTime);
+
             experimentService.addExperiment(experiment);
             return ResultUtils.ok(true);
         } catch (IOException e) {

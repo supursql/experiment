@@ -3,6 +3,8 @@ package org.exp.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,6 +17,7 @@ public class Experiment {
      */
     @ApiModelProperty(value = "实验id", name = "expId", example = "1")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer expId;
     /**
      * 实验名称
@@ -106,5 +109,18 @@ public class Experiment {
 
     public void setExpFileUrl(String expFileUrl) {
         this.expFileUrl = expFileUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Experiment{" +
+                "expId=" + expId +
+                ", expName='" + expName + '\'' +
+                ", expCourseId=" + expCourseId +
+                ", expLocation='" + expLocation + '\'' +
+                ", expTime='" + expTime + '\'' +
+                ", expTeacher='" + expTeacher + '\'' +
+                ", expFileUrl='" + expFileUrl + '\'' +
+                '}';
     }
 }

@@ -3,6 +3,8 @@ package org.exp.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,6 +17,7 @@ public class Course {
      */
     @ApiModelProperty(value = "课程id", name = "courseId", example = "1")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer courseId;
 
     /**

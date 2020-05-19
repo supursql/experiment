@@ -12,5 +12,4 @@ public interface CourseMapper extends MyMapper<Course> {
 
     void deleteCourse(int courseId);
 
-    void updateCourse(@Param("course") Course course);
 }

@@ -1,5 +1,6 @@
 package org.exp.service.impl;
 
+import org.exp.mapper.CourseStuMapper;
 import org.exp.mapper.StudentCustomMapper;
 import org.exp.mapper.StudentMapper;
 import org.exp.exception.BizException;
@@ -23,18 +24,21 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentCustomMapper studentCustomMapper;
 
+    @Autowired
+    private CourseStuMapper courseStuMapper;
+
 
     @Override
     public StudentVO queryStudentIsExist(String stuNum, String stuPass) throws BizException, NoSuchAlgorithmException {
 
-        StudentVO user = new StudentVO();
-        user.setStuNum(stuNum);
-
-        StudentVO res = studentCustomMapper.selectOne(user);
+        StudentVO res = studentCustomMapper.queryStudentIsExist(stuNum);
 
         if (res == null) {
             throw new BizException("用户名不存在");
         } else if (!MD5Utils.getMD5Str(stuPass).equals(res.getStuPass())){
+            System.out.println(stuPass);
+            System.out.println(res.getStuPass());
+            System.out.println(MD5Utils.getMD5Str(stuPass));
             throw new BizException("密码不正确");
         }
 
@@ -74,5 +78,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentVO> queryStudentsByCourseId(int courseId) {
         return studentCustomMapper.queryStudentsByCourseId(courseId);
+    }
+
+    @Override
+    public boolean addCourse(String stuId, String courseId) {
+        return courseStuMapper.addCourse(Integer.valueOf(stuId), Integer.valueOf(courseId)) != 0;
     }
 }

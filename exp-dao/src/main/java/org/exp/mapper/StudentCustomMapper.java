@@ -9,4 +9,6 @@ public interface StudentCustomMapper extends MyMapper<StudentVO> {
     List<StudentVO> queryStudentsByCourseId(int courseId);
 
     StudentVO queryUserInfoById(int stuId);
+
+    StudentVO queryStudentIsExist(String stuNum);
 }

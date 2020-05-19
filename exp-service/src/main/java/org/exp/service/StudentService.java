@@ -20,4 +20,6 @@ public interface StudentService {
     boolean updateUserInfo(Student student);
 
     List<StudentVO> queryStudentsByCourseId(int courseId);
+
+    boolean addCourse(String stuId, String courseId);
 }

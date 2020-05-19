@@ -14,8 +14,16 @@
     </resultMap>
 
     <select id="selectScoreByUserId" resultMap="BaseResultMap">
-        SELECT * FROM exp_score
-        WHERE score_stu = #{stuId};
+        SELECT score.score_id, stu.stu_name, exp.exp_name, score.score_res, score.score_res_file, score.score_response FROM exp_score score
+        left join exp_student as stu on stu.stu_id = score.score_stu
+        left join exp_experiment as exp on exp.exp_id = score.score_exp
+        <if test="stuId != -1">
+            WHERE score_stu = #{stuId}
+        </if>
+        <if test="stuId == -1">
+            WHERE score_status = 0
+        </if>
+
     </select>
 
 </mapper>
