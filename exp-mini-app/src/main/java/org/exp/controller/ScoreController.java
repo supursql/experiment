@@ -53,7 +53,8 @@ public class ScoreController extends BasicController {
     @PostMapping("/addStuFile")
     public ResultUtils addStuFile(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("scoreId") String scoreId
+            @RequestParam("stuId") String stuId,
+            @RequestParam("expId") String expId
     ) throws FileNotFoundException {
 
         if (file.isEmpty()) {
@@ -78,9 +79,10 @@ public class ScoreController extends BasicController {
         File dest = new File(filePath + newName);
         try {
             file.transferTo(dest);
-            scoreService.addStuFile(filePath, scoreId);
+            scoreService.addStuFile(newName, stuId, expId);
             return ResultUtils.ok(true);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
 
         return ResultUtils.errorMsg("保存失败");

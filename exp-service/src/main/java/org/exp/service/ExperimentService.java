@@ -19,4 +19,8 @@ public interface ExperimentService {
     boolean updateExperiment(Experiment experiment);
 
     PagedResult queryExperimentByKeyWord(String keyWord, int page, int pageSize, int stuId);
+
+    List<Integer> queryExperimentByCourseId(int courseId);
+
+    boolean addScores(List<Integer> experimentIds, int userId);
 }

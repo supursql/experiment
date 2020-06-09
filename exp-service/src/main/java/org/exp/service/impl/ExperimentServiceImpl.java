@@ -64,6 +64,19 @@ public class ExperimentServiceImpl implements ExperimentService {
     }
 
     @Override
+    public List<Integer> queryExperimentByCourseId(int courseId) {
+
+        List<Integer> experimentIds = experimentMapper.selectCourseByCourseId(courseId).stream().map(
+                experiment -> {
+                    return experiment.getExpId();
+                }
+        ).collect(Collectors.toList());
+
+
+        return experimentIds;
+    }
+
+    @Override
     public ExperimentVO queryExperimentById(int expId) {
 
         return experimentCustomMapper.queryExperimentById(expId);
@@ -83,6 +96,23 @@ public class ExperimentServiceImpl implements ExperimentService {
             Score score = new Score();
             score.setScoreExp(experiment.getExpId());
             score.setScoreStu(stu.getStuId());
+            score.setScoreRes(0.0);
+
+            scoreService.addScore(score);
+        }
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean addScores(List<Integer> experimentIds, int userId) {
+
+        for (Integer experimentId:
+                experimentIds) {
+            Score score = new Score();
+            score.setScoreExp(experimentId);
+            score.setScoreStu(userId);
             score.setScoreRes(0.0);
 
             scoreService.addScore(score);

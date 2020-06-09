@@ -5,6 +5,7 @@ import org.exp.mapper.StudentCustomMapper;
 import org.exp.mapper.StudentMapper;
 import org.exp.exception.BizException;
 import org.exp.pojo.Student;
+import org.exp.service.ExperimentService;
 import org.exp.service.StudentService;
 import org.exp.utils.MD5Utils;
 import org.exp.vo.StudentVO;
@@ -26,6 +27,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private CourseStuMapper courseStuMapper;
+
+    @Autowired
+    private ExperimentService experimentService;
 
 
     @Override
@@ -69,6 +73,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean updateUserInfo(Student student) {
         Example userInfo = new Example(Student.class);
+        try {
+            student.setStuPass(MD5Utils.getMD5Str(student.getStuPass()));
+        } catch (Exception e) {
+
+        }
         Example.Criteria criteria = userInfo.createCriteria();
         criteria.andEqualTo("stuId", student.getStuId());
 
@@ -82,6 +91,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean addCourse(String stuId, String courseId) {
-        return courseStuMapper.addCourse(Integer.valueOf(stuId), Integer.valueOf(courseId)) != 0;
+        boolean condition1 = courseStuMapper.addCourse(Integer.valueOf(stuId), Integer.valueOf(courseId)) != 0;
+        List<Integer> experimentIds = experimentService.queryExperimentByCourseId(Integer.valueOf(courseId));
+        boolean condition2 = experimentService.addScores(experimentIds, Integer.valueOf(stuId));
+
+        return condition1 && condition2;
     }
 }

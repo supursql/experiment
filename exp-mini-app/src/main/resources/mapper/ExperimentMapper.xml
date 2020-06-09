@@ -24,4 +24,8 @@
         INSERT INTO  exp_experiment(exp_name, exp_course_id, exp_location, exp_time, exp_teacher, exp_file_url)
         VALUES (#{experiment.expName}, #{experiment.expCourseId}, #{experiment.expLocation}, #{experiment.expTime}, #{experiment.expTeacher}, #{experiment.expFileUrl})
     </insert>
+
+    <select id="selectCourseByCourseId" resultMap="BaseResultMap">
+        select * from exp_experiment where exp_course_id = #{courseId}
+    </select>
 </mapper>

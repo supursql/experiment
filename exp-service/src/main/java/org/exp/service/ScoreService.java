@@ -10,7 +10,7 @@ public interface ScoreService {
 
     boolean addTeacherInfo(String scoreId, Double score, String teacherInfo);
 
-    boolean addStuFile(String filepath, String scoreId);
+    boolean addStuFile(String filepath, String stuId, String expId);
 
     boolean delete(int scoreId);
 

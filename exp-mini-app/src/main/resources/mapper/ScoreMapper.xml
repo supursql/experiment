@@ -23,7 +23,7 @@
     <update id="addStuFilePath">
         UPDATE exp_score
         set score_res_file = #{filepath}
-        WHERE score_id = #{scoreId}
+        WHERE score_stu = #{stuId} AND score_exp = #{expId}
     </update>
 
     <update id="endScore">

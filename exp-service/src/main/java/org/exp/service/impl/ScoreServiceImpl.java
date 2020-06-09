@@ -32,8 +32,8 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public boolean addStuFile(String filepath, String scoreId) {
-        scoreMapper.addStuFilePath(filepath, scoreId);
+    public boolean addStuFile(String filepath, String stuId, String expId) {
+        scoreMapper.addStuFilePath(filepath, stuId, expId);
         return true;
     }
 
